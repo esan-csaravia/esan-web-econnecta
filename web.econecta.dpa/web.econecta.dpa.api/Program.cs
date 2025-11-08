@@ -1,15 +1,23 @@
-using Microsoft.EntityFrameworkCore;
+
 using web.econecta.dpa.core.Infrastructure.Data;
 using web.econecta.dpa.core.Core.Interfaces;
 using web.econecta.dpa.core.Infrastructure.Repositories;
 using web.econecta.dpa.core.Core.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "Server=localhost;Database=EcoConectaDB;Trusted_Connection=True;TrustServerCertificate=True";
-builder.Services.AddDbContext<EcoConectaDBContext>(options => options.UseSqlServer(connectionString));
+//var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "Server=localhost;Database=EcoConectaDB;Trusted_Connection=True;TrustServerCertificate=True";
+//builder.Services.AddDbContext<EcoConectaDBContext>(options => options.UseSqlServer(connectionString));
+
+var _configuration = builder.Configuration;
+var _connectionString = _configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<EcoConectaDBContext>(options =>
+{
+    options.UseSqlServer(_connectionString);
+});
 
 // Register repositories and services
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
@@ -43,10 +51,7 @@ builder.Services.AddScoped<IVerificacionesCorreoService, VerificacionesCorreoSer
 
 builder.Services.AddControllers();
 // CORS - allow frontend during development
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll", policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-});
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
@@ -60,7 +65,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors("AllowAll");
+//app.UseCors("AllowAll");
 
 app.UseAuthorization();
 
