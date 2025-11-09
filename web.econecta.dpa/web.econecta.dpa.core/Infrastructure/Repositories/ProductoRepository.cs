@@ -47,7 +47,7 @@ public class ProductoRepository : IProductoRepository
     }
 
     // DTO methods required by IProductoRepository
-    public async Task<IEnumerable<ProductoDto>> GetAllDtosAsync()
+    public async Task<IEnumerable<ProductoDto>> GetProductosAsync()
     {
         // Project products including category list DTO
         var query = from p in Query()
@@ -60,16 +60,16 @@ public class ProductoRepository : IProductoRepository
                     select new ProductoDto
                     {
                         IdProducto = p.IdProducto,
-                        //IdVendedor = p.IdVendedor,
+                        IdVendedor = p.IdVendedor,
                         Titulo = p.Titulo,
                         Descripcion = p.Descripcion,
-                        //IdCategoria = p.IdCategoria,
+                        IdCategoria = p.IdCategoria,
                         Categoria = c == null ? null : new CategoriaListDto { IdCategoria = c.IdCategoria, Nombre = c.Nombre },
                         TipoPublicacion = p.TipoPublicacion,
                         Condicion = p.Condicion,
                         Precio = p.Precio,
                         Cantidad = p.Cantidad,
-                        //IdDistrito = p.IdDistrito,
+                        IdDistrito = p.IdDistrito,
                         EstadoModeracion = p.EstadoModeracion,
                         MotivoModeracion = p.MotivoModeracion,
                         IdModerador = p.IdModerador,
@@ -83,7 +83,7 @@ public class ProductoRepository : IProductoRepository
         return await query.ToListAsync();
     }
 
-    public async Task<ProductoDto?> GetDtoByIdAsync(long id)
+    public async Task<ProductoDto?> GetProductoByIdAsync(long id)
     {
         var query = from p in Query()
                     where p.IdProducto == id
@@ -96,16 +96,16 @@ public class ProductoRepository : IProductoRepository
                     select new ProductoDto
                     {
                         IdProducto = p.IdProducto,
-                        //IdVendedor = p.IdVendedor,
+                        IdVendedor = p.IdVendedor,
                         Titulo = p.Titulo,
                         Descripcion = p.Descripcion,
-                        //IdCategoria = p.IdCategoria,
+                        IdCategoria = p.IdCategoria,
                         Categoria = c == null ? null : new CategoriaListDto { IdCategoria = c.IdCategoria, Nombre = c.Nombre },
                         TipoPublicacion = p.TipoPublicacion,
                         Condicion = p.Condicion,
                         Precio = p.Precio,
                         Cantidad = p.Cantidad,
-                        //IdDistrito = p.IdDistrito,
+                        IdDistrito = p.IdDistrito,
                         EstadoModeracion = p.EstadoModeracion,
                         MotivoModeracion = p.MotivoModeracion,
                         IdModerador = p.IdModerador,
@@ -118,7 +118,7 @@ public class ProductoRepository : IProductoRepository
         return await query.FirstOrDefaultAsync();
     }
 
-    public async Task AddDtoAsync(ProductoDto dto)
+    public async Task AddProductoAsync(ProductoDto dto)
     {
         var entity = MapToEntity(dto);
         _context.Productos.Add(entity);
@@ -126,14 +126,14 @@ public class ProductoRepository : IProductoRepository
         dto.IdProducto = entity.IdProducto;
     }
 
-    public async Task UpdateDtoAsync(ProductoDto dto)
+    public async Task UpdateProductoAsync(ProductoDto dto)
     {
         var entity = MapToEntity(dto);
         _context.Productos.Update(entity);
         await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteDtoAsync(long id)
+    public async Task DeleteProductoAsync(long id)
     {
         var entity = await GetByIdAsync(id);
         if (entity == null) return;
@@ -145,15 +145,15 @@ public class ProductoRepository : IProductoRepository
     private static ProductoDto MapToDto(Producto p) => new ProductoDto
     {
         IdProducto = p.IdProducto,
-        //IdVendedor = p.IdVendedor,
+        IdVendedor = p.IdVendedor,
         Titulo = p.Titulo,
         Descripcion = p.Descripcion,
-        //IdCategoria = p.IdCategoria,
+        IdCategoria = p.IdCategoria,
         TipoPublicacion = p.TipoPublicacion,
         Condicion = p.Condicion,
         Precio = p.Precio,
         Cantidad = p.Cantidad,
-        //IdDistrito = p.IdDistrito,
+        IdDistrito = p.IdDistrito,
         EstadoModeracion = p.EstadoModeracion,
         MotivoModeracion = p.MotivoModeracion,
         IdModerador = p.IdModerador,
@@ -165,15 +165,15 @@ public class ProductoRepository : IProductoRepository
     private static Producto MapToEntity(ProductoDto dto) => new Producto
     {
         IdProducto = dto.IdProducto,
-        //IdVendedor = dto.IdVendedor,
+        IdVendedor = dto.IdVendedor,
         Titulo = dto.Titulo,
         Descripcion = dto.Descripcion,
-        //IdCategoria = dto.IdCategoria,
+        IdCategoria = dto.IdCategoria,
         TipoPublicacion = dto.TipoPublicacion,
         Condicion = dto.Condicion,
         Precio = dto.Precio,
         Cantidad = dto.Cantidad,
-        //IdDistrito = dto.IdDistrito,
+        IdDistrito = dto.IdDistrito,
         EstadoModeracion = dto.EstadoModeracion,
         MotivoModeracion = dto.MotivoModeracion,
         IdModerador = dto.IdModerador,

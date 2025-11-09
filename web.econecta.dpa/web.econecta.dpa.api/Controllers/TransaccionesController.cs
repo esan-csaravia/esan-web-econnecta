@@ -15,16 +15,16 @@ namespace web.econecta.dpa.api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TransaccioneDto>>> Get()
         {
-            var items = await _service.GetTransaccionesAsync();
-            return items.Select(t => new TransaccioneDto { IdTransaccion = t.IdTransaccion, Tipo = t.Tipo, IdProducto = t.IdProducto, IdVendedor = t.IdVendedor, IdComprador = t.IdComprador, Cantidad = t.Cantidad, PrecioUnitario = t.PrecioUnitario, MontoTotal = t.MontoTotal, Estado = t.Estado, CreadoEn = t.CreadoEn, CompletadoEn = t.CompletadoEn }).ToList();
+            var items = await _service.GetTransaccionesDtosAsync();
+            return Ok(items);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<TransaccioneDto>> Get(long id)
         {
-            var ent = await _service.GetTransaccionByIdAsync(id);
+            var ent = await _service.GetTransaccionDtoByIdAsync(id);
             if (ent == null) return NotFound();
-            return new TransaccioneDto { IdTransaccion = ent.IdTransaccion, Tipo = ent.Tipo, IdProducto = ent.IdProducto, IdVendedor = ent.IdVendedor, IdComprador = ent.IdComprador, Cantidad = ent.Cantidad, PrecioUnitario = ent.PrecioUnitario, MontoTotal = ent.MontoTotal, Estado = ent.Estado, CreadoEn = ent.CreadoEn, CompletadoEn = ent.CompletadoEn };
+            return Ok(ent);
         }
 
         [HttpPost]

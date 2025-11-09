@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 using web.econecta.dpa.core.Core.Entities;
 using web.econecta.dpa.core.Core.Interfaces;
+using web.econecta.dpa.core.Core.DTOs;
 
 namespace web.econecta.dpa.core.Core.Services
 {
@@ -23,5 +25,45 @@ namespace web.econecta.dpa.core.Core.Services
         public Task AddTransaccionAsync(Transaccione entity) => AddAsync(entity);
         public Task UpdateTransaccionAsync(Transaccione entity) => UpdateAsync(entity);
         public Task DeleteTransaccionAsync(Transaccione entity) => DeleteAsync(entity);
+
+        // DTO methods
+        public async Task<IEnumerable<TransaccioneDto>> GetTransaccionesDtosAsync()
+        {
+            var items = await _repo.GetAllAsync();
+            return items.Select(t => new TransaccioneDto
+            {
+                IdTransaccion = t.IdTransaccion,
+                Tipo = t.Tipo,
+                IdProducto = t.IdProducto,
+                IdVendedor = t.IdVendedor,
+                IdComprador = t.IdComprador,
+                Cantidad = t.Cantidad,
+                PrecioUnitario = t.PrecioUnitario,
+                MontoTotal = t.MontoTotal,
+                Estado = t.Estado,
+                CreadoEn = t.CreadoEn,
+                CompletadoEn = t.CompletadoEn
+            });
+        }
+
+        public async Task<TransaccioneDto?> GetTransaccionDtoByIdAsync(long id)
+        {
+            var t = await _repo.GetByIdAsync(id);
+            if (t == null) return null;
+            return new TransaccioneDto
+            {
+                IdTransaccion = t.IdTransaccion,
+                Tipo = t.Tipo,
+                IdProducto = t.IdProducto,
+                IdVendedor = t.IdVendedor,
+                IdComprador = t.IdComprador,
+                Cantidad = t.Cantidad,
+                PrecioUnitario = t.PrecioUnitario,
+                MontoTotal = t.MontoTotal,
+                Estado = t.Estado,
+                CreadoEn = t.CreadoEn,
+                CompletadoEn = t.CompletadoEn
+            };
+        }
     }
 }

@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 using web.econecta.dpa.core.Core.Entities;
 using web.econecta.dpa.core.Core.Interfaces;
+using web.econecta.dpa.core.Core.DTOs;
 
 namespace web.econecta.dpa.core.Core.Services
 {
@@ -23,5 +25,35 @@ namespace web.econecta.dpa.core.Core.Services
         public Task AddRestablecimientoAsync(RestablecimientosContrasena entity) => AddAsync(entity);
         public Task UpdateRestablecimientoAsync(RestablecimientosContrasena entity) => UpdateAsync(entity);
         public Task DeleteRestablecimientoAsync(RestablecimientosContrasena entity) => DeleteAsync(entity);
+
+        // DTO methods
+        public async Task<IEnumerable<RestablecimientosContrasenaDto>> GetRestablecimientosDtosAsync()
+        {
+            var items = await _repo.GetAllAsync();
+            return items.Select(r => new RestablecimientosContrasenaDto
+            {
+                IdRestablecimiento = r.IdRestablecimiento,
+                IdUsuario = r.IdUsuario,
+                Token = r.Token,
+                ExpiraEn = r.ExpiraEn,
+                UsadoEn = r.UsadoEn,
+                CreadoEn = r.CreadoEn
+            });
+        }
+
+        public async Task<RestablecimientosContrasenaDto?> GetRestablecimientoDtoByIdAsync(long id)
+        {
+            var r = await _repo.GetByIdAsync(id);
+            if (r == null) return null;
+            return new RestablecimientosContrasenaDto
+            {
+                IdRestablecimiento = r.IdRestablecimiento,
+                IdUsuario = r.IdUsuario,
+                Token = r.Token,
+                ExpiraEn = r.ExpiraEn,
+                UsadoEn = r.UsadoEn,
+                CreadoEn = r.CreadoEn
+            };
+        }
     }
 }

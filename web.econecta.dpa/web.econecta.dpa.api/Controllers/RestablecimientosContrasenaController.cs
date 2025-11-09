@@ -15,16 +15,16 @@ namespace web.econecta.dpa.api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RestablecimientosContrasenaDto>>> Get()
         {
-            var items = await _service.GetRestablecimientosAsync();
-            return items.Select(r => new RestablecimientosContrasenaDto { IdRestablecimiento = r.IdRestablecimiento, IdUsuario = r.IdUsuario, Token = r.Token, ExpiraEn = r.ExpiraEn, UsadoEn = r.UsadoEn, CreadoEn = r.CreadoEn }).ToList();
+            var items = await _service.GetRestablecimientosDtosAsync();
+            return Ok(items);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<RestablecimientosContrasenaDto>> Get(long id)
         {
-            var ent = await _service.GetRestablecimientoByIdAsync(id);
-            if (ent == null) return NotFound();
-            return new RestablecimientosContrasenaDto { IdRestablecimiento = ent.IdRestablecimiento, IdUsuario = ent.IdUsuario, Token = ent.Token, ExpiraEn = ent.ExpiraEn, UsadoEn = ent.UsadoEn, CreadoEn = ent.CreadoEn };
+            var dto = await _service.GetRestablecimientoDtoByIdAsync(id);
+            if (dto == null) return NotFound();
+            return Ok(dto);
         }
 
         [HttpPost]

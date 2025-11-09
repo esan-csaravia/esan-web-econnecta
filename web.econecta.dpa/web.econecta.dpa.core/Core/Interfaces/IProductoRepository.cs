@@ -5,23 +5,21 @@ using web.econecta.dpa.core.Core.DTOs;
 
 namespace web.econecta.dpa.core.Core.Interfaces
 {
-    //public interface IProductoRepository : IRepository<Producto>
-    //{
-    //    // additional product-specific methods
-    //    Task<List<Producto>> SearchAsync(int? categoria, int? distrito);
-    //}
-
-    // Se mezcla aquí la interfaz del AppService para evitar un archivo separado.
-    // Se usan nombres de método diferentes para evitar colisiones con los métodos que usan entidades.
-    public interface IProductoRepository : IRepository<Producto>
+    public interface IProductoRepository
     {
+        Task<List<Producto>> GetAllAsync();
+        Task<Producto?> GetByIdAsync(long id);
+        Task AddAsync(Producto entity);
+        Task UpdateAsync(Producto entity);
+        Task DeleteAsync(Producto entity);
+
         // product-specific query
         Task<List<Producto>> SearchAsync(int? categoria, int? distrito);
 
-        Task<IEnumerable<ProductoDto>> GetAllDtosAsync();
-        Task<ProductoDto?> GetDtoByIdAsync(long id);
-        Task AddDtoAsync(ProductoDto dto);
-        Task UpdateDtoAsync(ProductoDto dto);
-        Task DeleteDtoAsync(long id);
+        Task<IEnumerable<ProductoDto>> GetProductosAsync();
+        Task<ProductoDto?> GetProductoByIdAsync(long id);
+        Task AddProductoAsync(ProductoDto dto);
+        Task UpdateProductoAsync(ProductoDto dto);
+        Task DeleteProductoAsync(long id);
     }
 }

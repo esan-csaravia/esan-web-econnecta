@@ -15,16 +15,16 @@ namespace web.econecta.dpa.api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DistritoDto>>> Get()
         {
-            var items = await _service.GetDistritosAsync();
-            return items.Select(d => new DistritoDto { IdDistrito = d.IdDistrito, Nombre = d.Nombre }).ToList();
+            var items = await _service.GetDistritosDtosAsync();
+            return Ok(items);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<DistritoDto>> Get(long id)
         {
-            var ent = await _service.GetDistritoByIdAsync(id);
-            if (ent == null) return NotFound();
-            return new DistritoDto { IdDistrito = ent.IdDistrito, Nombre = ent.Nombre };
+            var dto = await _service.GetDistritoDtoByIdAsync(id);
+            if (dto == null) return NotFound();
+            return Ok(dto);
         }
 
         [HttpPost]

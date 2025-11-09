@@ -15,16 +15,16 @@ namespace web.econecta.dpa.api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<NotificacioneDto>>> Get()
         {
-            var items = await _service.GetNotificacionesAsync();
-            return items.Select(n => new NotificacioneDto { IdNotificacion = n.IdNotificacion, IdDestinatario = n.IdDestinatario, Tipo = n.Tipo, Titulo = n.Titulo, Cuerpo = n.Cuerpo, Canal = n.Canal, IdProductoRelacionado = n.IdProductoRelacionado, IdTransaccionRelacionada = n.IdTransaccionRelacionada, LeidoEn = n.LeidoEn, CreadoEn = n.CreadoEn }).ToList();
+            var items = await _service.GetNotificacionesDtosAsync();
+            return Ok(items);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<NotificacioneDto>> Get(long id)
         {
-            var ent = await _service.GetNotificacioneByIdAsync(id);
-            if (ent == null) return NotFound();
-            return new NotificacioneDto { IdNotificacion = ent.IdNotificacion, IdDestinatario = ent.IdDestinatario, Tipo = ent.Tipo, Titulo = ent.Titulo, Cuerpo = ent.Cuerpo, Canal = ent.Canal, IdProductoRelacionado = ent.IdProductoRelacionado, IdTransaccionRelacionada = ent.IdTransaccionRelacionada, LeidoEn = ent.LeidoEn, CreadoEn = ent.CreadoEn };
+            var dto = await _service.GetNotificacioneDtoByIdAsync(id);
+            if (dto == null) return NotFound();
+            return Ok(dto);
         }
 
         [HttpPost]
@@ -34,26 +34,6 @@ namespace web.econecta.dpa.api.Controllers
             await _service.AddNotificacioneAsync(ent);
             dto.IdNotificacion = ent.IdNotificacion;
             return CreatedAtAction(nameof(Get), new { id = ent.IdNotificacion }, dto);
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(long id, [FromBody] NotificacioneDto dto)
-        {
-            if (id != dto.IdNotificacion) return BadRequest();
-            var ent = await _service.GetNotificacioneByIdAsync(id);
-            if (ent == null) return NotFound();
-            ent.LeidoEn = dto.LeidoEn;
-            await _service.UpdateNotificacioneAsync(ent);
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(long id)
-        {
-            var ent = await _service.GetNotificacioneByIdAsync(id);
-            if (ent == null) return NotFound();
-            await _service.DeleteNotificacioneAsync(ent);
-            return NoContent();
         }
     }
 }

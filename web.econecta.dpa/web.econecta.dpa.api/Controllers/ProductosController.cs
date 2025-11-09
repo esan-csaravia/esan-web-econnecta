@@ -8,51 +8,51 @@ namespace web.econecta.dpa.api.Controllers
     [Route("api/[controller]")]
     public class ProductosController : ControllerBase
     {
-        private readonly IProductoRepository _service;
+        private readonly IProductoService _service;
 
-        public ProductosController(IProductoRepository service)
+        public ProductosController(IProductoService service)
         {
             _service = service;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductoDto>>> GetAll()
+        public async Task<ActionResult<IEnumerable<ProductoDto>>> GetProductos()
         {
-            var result = await _service.GetAllDtosAsync();
+            var result = await _service.GetProductosAsync();
             return Ok(result);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProductoDto>> Get(long id)
+        public async Task<ActionResult<ProductoDto>> GetProductoById(long id)
         {
-            var result = await _service.GetDtoByIdAsync(id);
+            var result = await _service.GetProductoByIdAsync(id);
             if (result == null) return NotFound();
             return Ok(result);
         }
 
         [HttpPost]
-        public async Task<ActionResult<ProductoDto>> Post([FromBody] ProductoDto dto)
+        public async Task<ActionResult<ProductoDto>> AddProducto([FromBody] ProductoDto dto)
         {
-            await _service.AddDtoAsync(dto);
-            return CreatedAtAction(nameof(Get), new { id = dto.IdProducto }, dto);
+            await _service.AddProductoAsync(dto);
+            return CreatedAtAction(nameof(GetProductoById), new { id = dto.IdProducto }, dto);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(long id, [FromBody] ProductoDto dto)
+        public async Task<IActionResult> UpdateProducto(long id, [FromBody] ProductoDto dto)
         {
             if (id != dto.IdProducto) return BadRequest();
-            var existing = await _service.GetDtoByIdAsync(id);
+            var existing = await _service.GetProductoByIdAsync(id);
             if (existing == null) return NotFound();
-            await _service.UpdateDtoAsync(dto);
+            await _service.UpdateProductoAsync(dto);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(long id)
+        public async Task<IActionResult> DeleteProducto(long id)
         {
-            var existing = await _service.GetDtoByIdAsync(id);
+            var existing = await _service.GetProductoByIdAsync(id);
             if (existing == null) return NotFound();
-            await _service.DeleteDtoAsync(id);
+            await _service.DeleteProductoAsync(id);
             return NoContent();
         }
     }

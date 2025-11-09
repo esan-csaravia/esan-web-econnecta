@@ -21,108 +21,14 @@ namespace web.econecta.dpa.core.Core.Services
         public Task DeleteAsync(Producto entity) => _repo.DeleteAsync(entity);
 
         // DTO-based methods (migradas desde ProductoAppService)
-        public async Task<IEnumerable<ProductoDto>> GetAllDtosAsync()
-        {
-            var list = await _repo.GetAllAsync();
-            return list.Select(p => new ProductoDto
-            {
-                IdProducto = p.IdProducto,
-                //IdVendedor = p.IdVendedor,
-                Titulo = p.Titulo,
-                Descripcion = p.Descripcion,
-                //IdCategoria = p.IdCategoria,
-                TipoPublicacion = p.TipoPublicacion,
-                Condicion = p.Condicion,
-                Precio = p.Precio,
-                Cantidad = p.Cantidad,
-                //IdDistrito = p.IdDistrito,
-                EstadoModeracion = p.EstadoModeracion,
-                MotivoModeracion = p.MotivoModeracion,
-                IdModerador = p.IdModerador,
-                Activo = p.Activo,
-                CreadoEn = p.CreadoEn,
-                ActualizadoEn = p.ActualizadoEn
-            }).ToList();
-        }
+        public async Task<IEnumerable<ProductoDto>> GetProductosAsync() => await _repo.GetProductosAsync();
 
-        public async Task<ProductoDto?> GetDtoByIdAsync(long id)
-        {
-            var p = await _repo.GetByIdAsync(id);
-            if (p == null) return null;
-            return new ProductoDto
-            {
-                IdProducto = p.IdProducto,
-                //IdVendedor = p.IdVendedor,
-                Titulo = p.Titulo,
-                Descripcion = p.Descripcion,
-                //IdCategoria = p.IdCategoria,
-                TipoPublicacion = p.TipoPublicacion,
-                Condicion = p.Condicion,
-                Precio = p.Precio,
-                Cantidad = p.Cantidad,
-                //IdDistrito = p.IdDistrito,
-                EstadoModeracion = p.EstadoModeracion,
-                MotivoModeracion = p.MotivoModeracion,
-                IdModerador = p.IdModerador,
-                Activo = p.Activo,
-                CreadoEn = p.CreadoEn,
-                ActualizadoEn = p.ActualizadoEn
-            };
-        }
+        public async Task<ProductoDto?> GetProductoByIdAsync(long id) => await _repo.GetProductoByIdAsync(id);
 
-        public async Task AddDtoAsync(ProductoDto dto)
-        {
-            var entity = new Producto
-            {
-                //IdVendedor = dto.IdVendedor,
-                Titulo = dto.Titulo,
-                Descripcion = dto.Descripcion,
-                //IdCategoria = dto.IdCategoria,
-                TipoPublicacion = dto.TipoPublicacion,
-                Condicion = dto.Condicion,
-                Precio = dto.Precio,
-                Cantidad = dto.Cantidad,
-                //IdDistrito = dto.IdDistrito,
-                EstadoModeracion = dto.EstadoModeracion,
-                MotivoModeracion = dto.MotivoModeracion,
-                IdModerador = dto.IdModerador,
-                Activo = dto.Activo,
-                CreadoEn = dto.CreadoEn,
-                ActualizadoEn = dto.ActualizadoEn
-            };
-            await _repo.AddAsync(entity);
-            dto.IdProducto = entity.IdProducto;
-        }
+        public async Task AddProductoAsync(ProductoDto dto) => await _repo.AddProductoAsync(dto);
 
-        public async Task UpdateDtoAsync(ProductoDto dto)
-        {
-            var entity = new Producto
-            {
-                IdProducto = dto.IdProducto,
-                //IdVendedor = dto.IdVendedor,
-                Titulo = dto.Titulo,
-                Descripcion = dto.Descripcion,
-                //IdCategoria = dto.IdCategoria,
-                TipoPublicacion = dto.TipoPublicacion,
-                Condicion = dto.Condicion,
-                Precio = dto.Precio,
-                Cantidad = dto.Cantidad,
-                //IdDistrito = dto.IdDistrito,
-                EstadoModeracion = dto.EstadoModeracion,
-                MotivoModeracion = dto.MotivoModeracion,
-                IdModerador = dto.IdModerador,
-                Activo = dto.Activo,
-                CreadoEn = dto.CreadoEn,
-                ActualizadoEn = dto.ActualizadoEn
-            };
-            await _repo.UpdateAsync(entity);
-        }
+        public async Task UpdateProductoAsync(ProductoDto dto) => await _repo.UpdateProductoAsync(dto);
 
-        public async Task DeleteDtoAsync(long id)
-        {
-            var entity = await _repo.GetByIdAsync(id);
-            if (entity == null) return;
-            await _repo.DeleteAsync(entity);
-        }
+        public async Task DeleteProductoAsync(long id) => await _repo.DeleteProductoAsync(id);
     }
 }
