@@ -6,10 +6,10 @@ namespace web.econecta.dpa.core.Core.Interfaces
 {
     public interface IInteresesProductoService
     {
-        Task<List<InteresesProducto>> GetAllAsync();
-        Task<InteresesProducto?> GetByIdAsync(long id);
-        Task AddAsync(InteresesProducto entity);
-        Task UpdateAsync(InteresesProducto entity);
-        Task DeleteAsync(InteresesProducto entity);
+        Task<List<InteresesProducto>> GetInteresesProductoAsync();
+        Task<InteresesProducto?> GetInteresProductoByIdAsync(long id);
+        Task AddInteresProductoAsync(InteresesProducto entity);
+        Task UpdateInteresProductoAsync(InteresesProducto entity);
+        Task DeleteInteresProductoAsync(InteresesProducto entity);
     }
 }

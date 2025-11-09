@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using web.econecta.dpa.core.Core.DTOs;
 using web.econecta.dpa.core.Core.Entities;
 using web.econecta.dpa.core.Core.Interfaces;
 
@@ -14,75 +13,43 @@ namespace web.econecta.dpa.api.Controllers
         public CalificacionesController(ICalificacioneService service) => _service = service;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CalificacioneDto>>> Get()
+        public async Task<IActionResult> Get()
         {
-            var items = await _service.GetAllAsync();
-            return items.Select(c => new CalificacioneDto
-            {
-                IdCalificacion = c.IdCalificacion,
-                IdTransaccion = c.IdTransaccion,
-                IdCalificador = c.IdCalificador,
-                IdCalificado = c.IdCalificado,
-                Estrellas = c.Estrellas,
-                Comentario = c.Comentario,
-                CreadoEn = c.CreadoEn
-            }).ToList();
+            var result = await _service.GetCalificacionesAsync();
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<CalificacioneDto>> Get(long id)
+        public async Task<IActionResult> Get(long id)
         {
-            var ent = await _service.GetByIdAsync(id);
+            var ent = await _service.GetCalificacionByIdAsync(id);
             if (ent == null) return NotFound();
-            return new CalificacioneDto
-            {
-                IdCalificacion = ent.IdCalificacion,
-                IdTransaccion = ent.IdTransaccion,
-                IdCalificador = ent.IdCalificador,
-                IdCalificado = ent.IdCalificado,
-                Estrellas = ent.Estrellas,
-                Comentario = ent.Comentario,
-                CreadoEn = ent.CreadoEn
-            };
+            return Ok(ent);
         }
 
         [HttpPost]
-        public async Task<ActionResult<CalificacioneDto>> Post([FromBody] CalificacioneDto dto)
+        public async Task<IActionResult> Post([FromBody] Calificacione dto)
         {
-            var ent = new Calificacione
-            {
-                IdTransaccion = dto.IdTransaccion,
-                IdCalificador = dto.IdCalificador,
-                IdCalificado = dto.IdCalificado,
-                Estrellas = dto.Estrellas,
-                Comentario = dto.Comentario,
-                CreadoEn = dto.CreadoEn
-            };
-
-            await _service.AddAsync(ent);
-            dto.IdCalificacion = ent.IdCalificacion;
-            return CreatedAtAction(nameof(Get), new { id = ent.IdCalificacion }, dto);
+            await _service.AddCalificacionAsync(dto);
+            return CreatedAtAction(nameof(Get), new { id = dto.IdCalificacion }, dto);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(long id, [FromBody] CalificacioneDto dto)
+        public async Task<IActionResult> Put(long id, [FromBody] Calificacione dto)
         {
             if (id != dto.IdCalificacion) return BadRequest();
-            var ent = await _service.GetByIdAsync(id);
-            if (ent == null) return NotFound();
-            ent.Estrellas = dto.Estrellas;
-            ent.Comentario = dto.Comentario;
-            ent.CreadoEn = dto.CreadoEn;
-            await _service.UpdateAsync(ent);
+            var existing = await _service.GetCalificacionByIdAsync(id);
+            if (existing == null) return NotFound();
+            await _service.UpdateCalificacionAsync(dto);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(long id)
         {
-            var ent = await _service.GetByIdAsync(id);
-            if (ent == null) return NotFound();
-            await _service.DeleteAsync(ent);
+            var existing = await _service.GetCalificacionByIdAsync(id);
+            if (existing == null) return NotFound();
+            await _service.DeleteCalificacionAsync(existing);
             return NoContent();
         }
     }

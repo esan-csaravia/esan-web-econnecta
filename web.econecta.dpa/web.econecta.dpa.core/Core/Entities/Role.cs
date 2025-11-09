@@ -15,6 +15,4 @@ public partial class Role
     [StringLength(30)]
     [Unicode(false)]
     public string Nombre { get; set; } = null!;
-
-    public virtual ICollection<Usuario>? IdUsuarios { get; set; }
 }

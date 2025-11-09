@@ -21,6 +21,4 @@ public partial class ImagenesProducto
     public byte Orden { get; set; }
 
     public DateTime CreadoEn { get; set; }
-
-    public virtual Producto? IdProductoNavigation { get; set; }
 }

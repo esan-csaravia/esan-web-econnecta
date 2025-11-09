@@ -52,11 +52,15 @@ public partial class EcoConectaDBContext : DbContext
 
             entity.Property(e => e.CreadoEn).HasDefaultValueSql("(sysutcdatetime())");
 
-            entity.HasOne(d => d.IdUsuarioAdminNavigation).WithMany(p => p.AccionesAdministrativasUsuarioIdUsuarioAdminNavigations)
+            entity.HasOne<Usuario>()
+                .WithMany()
+                .HasForeignKey(e => e.IdUsuarioAdmin)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_AAU_Admin");
 
-            entity.HasOne(d => d.IdUsuarioObjetivoNavigation).WithMany(p => p.AccionesAdministrativasUsuarioIdUsuarioObjetivoNavigations)
+            entity.HasOne<Usuario>()
+                .WithMany()
+                .HasForeignKey(e => e.IdUsuarioObjetivo)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_AAU_Objetivo");
         });
@@ -67,15 +71,20 @@ public partial class EcoConectaDBContext : DbContext
 
             entity.Property(e => e.CreadoEn).HasDefaultValueSql("(sysutcdatetime())");
 
-            entity.HasOne(d => d.IdCalificadoNavigation).WithMany(p => p.CalificacioneIdCalificadoNavigations)
+            entity.HasOne<Usuario>()
+                .WithMany()
+                .HasForeignKey(e => e.IdCalificado)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Calif_Calificado");
 
-            entity.HasOne(d => d.IdCalificadorNavigation).WithMany(p => p.CalificacioneIdCalificadorNavigations)
+            entity.HasOne<Usuario>()
+                .WithMany()
+                .HasForeignKey(e => e.IdCalificador)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Calif_Calificador");
 
-            entity.HasOne(d => d.IdTransaccionNavigation).WithOne(p => p.Calificacione)
+            entity.HasOne<Transaccione>()
+                .WithOne()
                 .HasForeignKey<Calificacione>(c => c.IdTransaccion)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Calif_Trx");
@@ -88,7 +97,9 @@ public partial class EcoConectaDBContext : DbContext
             entity.Property(e => e.Activa).HasDefaultValue(true);
             entity.Property(e => e.CreadoEn).HasDefaultValueSql("(sysutcdatetime())");
 
-            entity.HasOne(d => d.IdCreadorNavigation).WithMany(p => p.Campanas)
+            entity.HasOne<Usuario>()
+                .WithMany()
+                .HasForeignKey(e => e.IdCreador)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Campanas_Admin");
         });
@@ -97,7 +108,10 @@ public partial class EcoConectaDBContext : DbContext
         {
             entity.HasKey(e => e.IdCategoria).HasName("PK__Categori__A3C02A1093779572");
 
-            entity.HasOne(d => d.IdPadreNavigation).WithMany(p => p.InverseIdPadreNavigation).HasConstraintName("FK_Categorias_Padre");
+            entity.HasOne<Categoria>()
+                .WithMany()
+                .HasForeignKey(e => e.IdPadre)
+                .HasConstraintName("FK_Categorias_Padre");
         });
 
         modelBuilder.Entity<Comentario>(entity =>
@@ -106,11 +120,15 @@ public partial class EcoConectaDBContext : DbContext
 
             entity.Property(e => e.CreadoEn).HasDefaultValueSql("(sysutcdatetime())");
 
-            entity.HasOne(d => d.IdAutorNavigation).WithMany(p => p.Comentarios)
+            entity.HasOne<Usuario>()
+                .WithMany()
+                .HasForeignKey(e => e.IdAutor)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Comentarios_Autor");
 
-            entity.HasOne(d => d.IdProductoNavigation).WithMany(p => p.Comentarios)
+            entity.HasOne<Producto>()
+                .WithMany()
+                .HasForeignKey(e => e.IdProducto)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Comentarios_Producto");
         });
@@ -126,7 +144,9 @@ public partial class EcoConectaDBContext : DbContext
 
             entity.Property(e => e.EjecutadoEn).HasDefaultValueSql("(sysutcdatetime())");
 
-            entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.EjecucionesReportes)
+            entity.HasOne<Usuario>()
+                .WithMany()
+                .HasForeignKey(e => e.IdUsuario)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_EjecucionesReporte_Usuario");
         });
@@ -138,7 +158,9 @@ public partial class EcoConectaDBContext : DbContext
             entity.Property(e => e.CreadoEn).HasDefaultValueSql("(sysutcdatetime())");
             entity.Property(e => e.Orden).HasDefaultValue((byte)1);
 
-            entity.HasOne(d => d.IdProductoNavigation).WithMany(p => p.ImagenesProductos)
+            entity.HasOne<Producto>()
+                .WithMany()
+                .HasForeignKey(e => e.IdProducto)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_ImagenesProducto_Producto");
         });
@@ -149,11 +171,15 @@ public partial class EcoConectaDBContext : DbContext
 
             entity.Property(e => e.CreadoEn).HasDefaultValueSql("(sysutcdatetime())");
 
-            entity.HasOne(d => d.IdCompradorNavigation).WithMany(p => p.InteresesProductos)
+            entity.HasOne<Usuario>()
+                .WithMany()
+                .HasForeignKey(e => e.IdComprador)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Interes_Comprador");
 
-            entity.HasOne(d => d.IdProductoNavigation).WithMany(p => p.InteresesProductos)
+            entity.HasOne<Producto>()
+                .WithMany()
+                .HasForeignKey(e => e.IdProducto)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Interes_Producto");
         });
@@ -165,13 +191,21 @@ public partial class EcoConectaDBContext : DbContext
             entity.Property(e => e.Canal).HasDefaultValue("in_app");
             entity.Property(e => e.CreadoEn).HasDefaultValueSql("(sysutcdatetime())");
 
-            entity.HasOne(d => d.IdDestinatarioNavigation).WithMany(p => p.Notificaciones)
+            entity.HasOne<Usuario>()
+                .WithMany()
+                .HasForeignKey(e => e.IdDestinatario)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Notif_Destinatario");
 
-            entity.HasOne(d => d.IdProductoRelacionadoNavigation).WithMany(p => p.Notificaciones).HasConstraintName("FK_Notif_Producto");
+            entity.HasOne<Producto>()
+                .WithMany()
+                .HasForeignKey(e => e.IdProductoRelacionado)
+                .HasConstraintName("FK_Notif_Producto");
 
-            entity.HasOne(d => d.IdTransaccionRelacionadaNavigation).WithMany(p => p.Notificaciones).HasConstraintName("FK_Notif_Trx");
+            entity.HasOne<Transaccione>()
+                .WithMany()
+                .HasForeignKey(e => e.IdTransaccionRelacionada)
+                .HasConstraintName("FK_Notif_Trx");
         });
 
         modelBuilder.Entity<Producto>(entity =>
@@ -184,15 +218,25 @@ public partial class EcoConectaDBContext : DbContext
             entity.Property(e => e.CreadoEn).HasDefaultValueSql("(sysutcdatetime())");
             entity.Property(e => e.EstadoModeracion).HasDefaultValue("pendiente");
 
-            entity.HasOne(d => d.IdCategoriaNavigation).WithMany(p => p.Productos)
+            entity.HasOne<Categoria>()
+                .WithMany()
+                .HasForeignKey(d => d.IdCategoria)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Productos_Categoria");
 
-            entity.HasOne(d => d.IdDistritoNavigation).WithMany(p => p.Productos).HasConstraintName("FK_Productos_Distrito");
+            entity.HasOne<Distrito>()
+                .WithMany()
+                .HasForeignKey(d => d.IdDistrito)
+                .HasConstraintName("FK_Productos_Distrito");
 
-            entity.HasOne(d => d.IdModeradorNavigation).WithMany(p => p.ProductoIdModeradorNavigations).HasConstraintName("FK_Productos_Moderador");
+            entity.HasOne<Usuario>()
+                .WithMany()
+                .HasForeignKey(d => d.IdModerador)
+                .HasConstraintName("FK_Productos_Moderador");
 
-            entity.HasOne(d => d.IdVendedorNavigation).WithMany(p => p.ProductoIdVendedorNavigations)
+            entity.HasOne<Usuario>()
+                .WithMany()
+                .HasForeignKey(d => d.IdVendedor)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Productos_Vendedor");
         });
@@ -204,7 +248,9 @@ public partial class EcoConectaDBContext : DbContext
             entity.Property(e => e.CreadoEn).HasDefaultValueSql("(sysutcdatetime())");
             entity.Property(e => e.Token).IsFixedLength();
 
-            entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.RestablecimientosContrasenas)
+            entity.HasOne<Usuario>()
+                .WithMany()
+                .HasForeignKey(e => e.IdUsuario)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Restablecer_Usuario");
         });
@@ -223,15 +269,21 @@ public partial class EcoConectaDBContext : DbContext
             entity.Property(e => e.Estado).HasDefaultValue("iniciada");
             entity.Property(e => e.MontoTotal).HasComputedColumnSql("([Cantidad]*isnull([PrecioUnitario],(0.00)))", true);
 
-            entity.HasOne(d => d.IdCompradorNavigation).WithMany(p => p.TransaccioneIdCompradorNavigations)
+            entity.HasOne<Usuario>()
+                .WithMany()
+                .HasForeignKey(d => d.IdComprador)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Trx_Comprador");
 
-            entity.HasOne(d => d.IdProductoNavigation).WithMany(p => p.Transacciones)
+            entity.HasOne<Producto>()
+                .WithMany()
+                .HasForeignKey(d => d.IdProducto)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Trx_Producto");
 
-            entity.HasOne(d => d.IdVendedorNavigation).WithMany(p => p.TransaccioneIdVendedorNavigations)
+            entity.HasOne<Usuario>()
+                .WithMany()
+                .HasForeignKey(d => d.IdVendedor)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Trx_Vendedor");
         });
@@ -243,9 +295,12 @@ public partial class EcoConectaDBContext : DbContext
             entity.Property(e => e.CreadoEn).HasDefaultValueSql("(sysutcdatetime())");
             entity.Property(e => e.Estado).HasDefaultValue("activo");
 
-            entity.HasOne(d => d.IdDistritoNavigation).WithMany(p => p.Usuarios).HasConstraintName("FK_Usuarios_Distritos");
+            entity.HasOne<Distrito>()
+                .WithMany()
+                .HasForeignKey(d => d.IdDistrito)
+                .HasConstraintName("FK_Usuarios_Distritos");
 
-            entity.HasMany(d => d.IdRols).WithMany(p => p.IdUsuarios)
+            entity.HasMany<Role>().WithMany()
                 .UsingEntity<Dictionary<string, object>>(
                     "UsuariosRole",
                     r => r.HasOne<Role>().WithMany()
@@ -270,7 +325,9 @@ public partial class EcoConectaDBContext : DbContext
             entity.Property(e => e.EnviadoEn).HasDefaultValueSql("(sysutcdatetime())");
             entity.Property(e => e.Token).IsFixedLength();
 
-            entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.VerificacionesCorreos)
+            entity.HasOne<Usuario>()
+                .WithMany()
+                .HasForeignKey(d => d.IdUsuario)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_VerifCorreo_Usuario");
         });

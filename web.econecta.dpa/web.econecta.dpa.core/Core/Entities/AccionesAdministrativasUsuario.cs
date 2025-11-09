@@ -26,7 +26,4 @@ public partial class AccionesAdministrativasUsuario
     public DateTime CreadoEn { get; set; }
 
     public DateTime? TerminaEn { get; set; }
-
-    public virtual Usuario? IdUsuarioAdminNavigation { get; set; }
-    public virtual Usuario? IdUsuarioObjetivoNavigation { get; set; }
 }

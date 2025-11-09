@@ -54,15 +54,4 @@ public partial class Producto
     public DateTime CreadoEn { get; set; }
 
     public DateTime? ActualizadoEn { get; set; }
-
-    // Navigation properties
-    public virtual ICollection<Comentario>? Comentarios { get; set; }
-    public virtual Categoria? IdCategoriaNavigation { get; set; }
-    public virtual Distrito? IdDistritoNavigation { get; set; }
-    public virtual Usuario? IdModeradorNavigation { get; set; }
-    public virtual Usuario? IdVendedorNavigation { get; set; }
-    public virtual ICollection<ImagenesProducto>? ImagenesProductos { get; set; }
-    public virtual ICollection<InteresesProducto>? InteresesProductos { get; set; }
-    public virtual ICollection<Notificacione>? Notificaciones { get; set; }
-    public virtual ICollection<Transaccione>? Transacciones { get; set; }
 }

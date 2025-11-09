@@ -22,7 +22,4 @@ public partial class Comentario
     public DateTime? ActualizadoEn { get; set; }
 
     public bool Eliminado { get; set; }
-
-    public virtual Usuario? IdAutorNavigation { get; set; }
-    public virtual Producto? IdProductoNavigation { get; set; }
 }

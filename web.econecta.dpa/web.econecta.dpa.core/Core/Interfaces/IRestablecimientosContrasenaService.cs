@@ -6,10 +6,10 @@ namespace web.econecta.dpa.core.Core.Interfaces
 {
     public interface IRestablecimientosContrasenaService
     {
-        Task<List<RestablecimientosContrasena>> GetAllAsync();
-        Task<RestablecimientosContrasena?> GetByIdAsync(long id);
-        Task AddAsync(RestablecimientosContrasena entity);
-        Task UpdateAsync(RestablecimientosContrasena entity);
-        Task DeleteAsync(RestablecimientosContrasena entity);
+        Task<List<RestablecimientosContrasena>> GetRestablecimientosAsync();
+        Task<RestablecimientosContrasena?> GetRestablecimientoByIdAsync(long id);
+        Task AddRestablecimientoAsync(RestablecimientosContrasena entity);
+        Task UpdateRestablecimientoAsync(RestablecimientosContrasena entity);
+        Task DeleteRestablecimientoAsync(RestablecimientosContrasena entity);
     }
 }

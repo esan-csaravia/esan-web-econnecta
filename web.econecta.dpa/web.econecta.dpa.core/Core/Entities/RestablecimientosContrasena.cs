@@ -24,6 +24,4 @@ public partial class RestablecimientosContrasena
     public DateTime? UsadoEn { get; set; }
 
     public DateTime CreadoEn { get; set; }
-
-    public virtual Usuario? IdUsuarioNavigation { get; set; }
 }

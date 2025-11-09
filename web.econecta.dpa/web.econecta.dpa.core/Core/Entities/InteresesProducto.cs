@@ -21,7 +21,4 @@ public partial class InteresesProducto
     public string? Mensaje { get; set; }
 
     public DateTime CreadoEn { get; set; }
-
-    public virtual Usuario? IdCompradorNavigation { get; set; }
-    public virtual Producto? IdProductoNavigation { get; set; }
 }

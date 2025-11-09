@@ -6,10 +6,10 @@ namespace web.econecta.dpa.core.Core.Interfaces
 {
     public interface ITransaccioneService
     {
-        Task<List<Transaccione>> GetAllAsync();
-        Task<Transaccione?> GetByIdAsync(long id);
-        Task AddAsync(Transaccione entity);
-        Task UpdateAsync(Transaccione entity);
-        Task DeleteAsync(Transaccione entity);
+        Task<List<Transaccione>> GetTransaccionesAsync();
+        Task<Transaccione?> GetTransaccionByIdAsync(long id);
+        Task AddTransaccionAsync(Transaccione entity);
+        Task UpdateTransaccionAsync(Transaccione entity);
+        Task DeleteTransaccionAsync(Transaccione entity);
     }
 }

@@ -35,8 +35,4 @@ public partial class Notificacione
     public DateTime? LeidoEn { get; set; }
 
     public DateTime CreadoEn { get; set; }
-
-    public virtual Usuario? IdDestinatarioNavigation { get; set; }
-    public virtual Producto? IdProductoRelacionadoNavigation { get; set; }
-    public virtual Transaccione? IdTransaccionRelacionadaNavigation { get; set; }
 }

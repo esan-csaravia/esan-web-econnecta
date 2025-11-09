@@ -24,8 +24,4 @@ public partial class Calificacione
     public string? Comentario { get; set; }
 
     public DateTime CreadoEn { get; set; }
-
-    public virtual Usuario? IdCalificadoNavigation { get; set; }
-    public virtual Usuario? IdCalificadorNavigation { get; set; }
-    public virtual Transaccione? IdTransaccionNavigation { get; set; }
 }

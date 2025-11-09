@@ -6,11 +6,11 @@ namespace web.econecta.dpa.core.Core.Interfaces
 {
     public interface IUsuarioService
     {
-        Task<List<Usuario>> GetAllAsync();
-        Task<Usuario?> GetByIdAsync(long id);
-        Task<Usuario?> GetByEmailAsync(string email);
-        Task AddAsync(Usuario entity);
-        Task UpdateAsync(Usuario entity);
-        Task DeleteAsync(Usuario entity);
+        Task<List<Usuario>> GetUsuariosAsync();
+        Task<Usuario?> GetUsuarioByIdAsync(long id);
+        Task<Usuario?> GetUsuarioByEmailAsync(string email);
+        Task AddUsuarioAsync(Usuario entity);
+        Task UpdateUsuarioAsync(Usuario entity);
+        Task DeleteUsuarioAsync(Usuario entity);
     }
 }

@@ -17,8 +17,4 @@ public partial class Categoria
     public string Nombre { get; set; } = null!;
 
     public int? IdPadre { get; set; }
-
-    public virtual Categoria? IdPadreNavigation { get; set; }
-    public virtual ICollection<Categoria>? InverseIdPadreNavigation { get; set; }
-    public virtual ICollection<Producto>? Productos { get; set; }
 }

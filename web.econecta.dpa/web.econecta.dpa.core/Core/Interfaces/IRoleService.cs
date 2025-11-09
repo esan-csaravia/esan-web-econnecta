@@ -6,10 +6,10 @@ namespace web.econecta.dpa.core.Core.Interfaces
 {
     public interface IRoleService
     {
-        Task<List<Role>> GetAllAsync();
-        Task<Role?> GetByIdAsync(long id);
-        Task AddAsync(Role entity);
-        Task UpdateAsync(Role entity);
-        Task DeleteAsync(Role entity);
+        Task<List<Role>> GetRolesAsync();
+        Task<Role?> GetRoleByIdAsync(long id);
+        Task AddRoleAsync(Role entity);
+        Task UpdateRoleAsync(Role entity);
+        Task DeleteRoleAsync(Role entity);
     }
 }

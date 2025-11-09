@@ -25,6 +25,4 @@ public partial class EjecucionesReporte
     public DateTime EjecutadoEn { get; set; }
 
     public int? FilasAfectadas { get; set; }
-
-    public virtual Usuario? IdUsuarioNavigation { get; set; }
 }

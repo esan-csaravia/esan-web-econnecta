@@ -6,10 +6,10 @@ namespace web.econecta.dpa.core.Core.Interfaces
 {
     public interface IVerificacionesCorreoService
     {
-        Task<List<VerificacionesCorreo>> GetAllAsync();
-        Task<VerificacionesCorreo?> GetByIdAsync(long id);
-        Task AddAsync(VerificacionesCorreo entity);
-        Task UpdateAsync(VerificacionesCorreo entity);
-        Task DeleteAsync(VerificacionesCorreo entity);
+        Task<List<VerificacionesCorreo>> GetVerificacionesCorreoAsync();
+        Task<VerificacionesCorreo?> GetVerificacionCorreoByIdAsync(long id);
+        Task AddVerificacionCorreoAsync(VerificacionesCorreo entity);
+        Task UpdateVerificacionCorreoAsync(VerificacionesCorreo entity);
+        Task DeleteVerificacionCorreoAsync(VerificacionesCorreo entity);
     }
 }

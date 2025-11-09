@@ -37,10 +37,4 @@ public partial class Transaccione
     public DateTime CreadoEn { get; set; }
 
     public DateTime? CompletadoEn { get; set; }
-
-    public virtual Calificacione? Calificacione { get; set; }
-    public virtual Usuario? IdCompradorNavigation { get; set; }
-    public virtual Producto? IdProductoNavigation { get; set; }
-    public virtual Usuario? IdVendedorNavigation { get; set; }
-    public virtual ICollection<Notificacione>? Notificaciones { get; set; }
 }

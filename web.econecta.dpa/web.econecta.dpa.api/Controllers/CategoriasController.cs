@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using web.econecta.dpa.core.Core.DTOs;
 using web.econecta.dpa.core.Core.Entities;
-using web.econecta.dpa.core.Core.Services;
+using web.econecta.dpa.core.Core.Interfaces;
+using web.econecta.dpa.core.Core.DTOs;
 
 namespace web.econecta.dpa.api.Controllers
 {
@@ -9,51 +9,47 @@ namespace web.econecta.dpa.api.Controllers
     [Route("api/[controller]")]
     public class CategoriasController : ControllerBase
     {
-        private readonly CategoriaService _service;
-        public CategoriasController(CategoriaService service) => _service = service;
+        private readonly ICategoriaService _service;
+        public CategoriasController(ICategoriaService service) => _service = service;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CategoriaDto>>> Get()
+        public async Task<IActionResult> Get()
         {
-            var items = await _service.GetAllAsync();
-            return items.Select(c => new CategoriaDto { IdCategoria = c.IdCategoria, Nombre = c.Nombre, IdPadre = c.IdPadre }).ToList();
+            var result = await _service.GetCategoriasAsync();
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<CategoriaDto>> Get(long id)
+        public async Task<IActionResult> Get(long id)
         {
-            var c = await _service.GetByIdAsync(id);
-            if (c == null) return NotFound();
-            return new CategoriaDto { IdCategoria = c.IdCategoria, Nombre = c.Nombre, IdPadre = c.IdPadre };
+            var result = await _service.GetCategoriaByIdAsync(id);
+            if (result == null) return NotFound();
+            return Ok(result);
         }
 
         [HttpPost]
-        public async Task<ActionResult<CategoriaDto>> Post([FromBody] CategoriaDto dto)
+        public async Task<IActionResult> Post([FromBody] CategoriaDto dto)
         {
-            var ent = new Categoria { Nombre = dto.Nombre, IdPadre = dto.IdPadre };
-            await _service.AddAsync(ent);
-            dto.IdCategoria = ent.IdCategoria;
-            return CreatedAtAction(nameof(Get), new { id = ent.IdCategoria }, dto);
+            await _service.AddCategoriaAsync(dto);
+            return CreatedAtAction(nameof(Get), new { id = dto.IdCategoria }, dto);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(long id, [FromBody] CategoriaDto dto)
         {
             if (id != dto.IdCategoria) return BadRequest();
-            var ent = await _service.GetByIdAsync(id);
-            if (ent == null) return NotFound();
-            ent.Nombre = dto.Nombre;
-            ent.IdPadre = dto.IdPadre;
-            await _service.UpdateAsync(ent);
+            var existing = await _service.GetCategoriaByIdAsync(id);
+            if (existing == null) return NotFound();
+            await _service.UpdateCategoriaAsync(dto);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(long id)
         {
-            var ent = await _service.GetByIdAsync(id);
-            if (ent == null) return NotFound();
-            await _service.DeleteAsync(ent);
+            var existing = await _service.GetCategoriaByIdAsync(id);
+            if (existing == null) return NotFound();
+            await _service.DeleteCategoriaAsync(id);
             return NoContent();
         }
     }

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "web.econecta.dpa.core": {
+      "commandName": "Project",
+      "hotReloadEnabled": true
+    }
+  }
+}

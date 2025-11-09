@@ -6,10 +6,10 @@ namespace web.econecta.dpa.core.Core.Interfaces
 {
     public interface ICalificacioneService
     {
-        Task<List<Calificacione>> GetAllAsync();
-        Task<Calificacione?> GetByIdAsync(long id);
-        Task AddAsync(Calificacione entity);
-        Task UpdateAsync(Calificacione entity);
-        Task DeleteAsync(Calificacione entity);
+        Task<List<Calificacione>> GetCalificacionesAsync();
+        Task<Calificacione?> GetCalificacionByIdAsync(long id);
+        Task AddCalificacionAsync(Calificacione entity);
+        Task UpdateCalificacionAsync(Calificacione entity);
+        Task DeleteCalificacionAsync(Calificacione entity);
     }
 }

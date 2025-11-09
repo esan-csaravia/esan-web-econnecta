@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using web.econecta.dpa.core.Core.DTOs;
 using web.econecta.dpa.core.Core.Entities;
-using web.econecta.dpa.core.Core.Services;
+using web.econecta.dpa.core.Core.Interfaces;
 
 namespace web.econecta.dpa.api.Controllers
 {
@@ -9,39 +8,37 @@ namespace web.econecta.dpa.api.Controllers
     [Route("api/[controller]")]
     public class VerificacionesCorreoController : ControllerBase
     {
-        private readonly VerificacionesCorreoService _service;
-        public VerificacionesCorreoController(VerificacionesCorreoService service) => _service = service;
+        private readonly IVerificacionesCorreoService _service;
+        public VerificacionesCorreoController(IVerificacionesCorreoService service) => _service = service;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<VerificacionesCorreoDto>>> Get()
+        public async Task<IActionResult> Get()
         {
-            var items = await _service.GetAllAsync();
-            return items.Select(v => new VerificacionesCorreoDto { IdVerificacion = v.IdVerificacion, IdUsuario = v.IdUsuario, Token = v.Token, EnviadoEn = v.EnviadoEn, ConfirmadoEn = v.ConfirmadoEn }).ToList();
+            var result = await _service.GetVerificacionesCorreoAsync();
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<VerificacionesCorreoDto>> Get(long id)
+        public async Task<IActionResult> Get(long id)
         {
-            var ent = await _service.GetByIdAsync(id);
-            if (ent == null) return NotFound();
-            return new VerificacionesCorreoDto { IdVerificacion = ent.IdVerificacion, IdUsuario = ent.IdUsuario, Token = ent.Token, EnviadoEn = ent.EnviadoEn, ConfirmadoEn = ent.ConfirmadoEn };
+            var result = await _service.GetVerificacionCorreoByIdAsync(id);
+            if (result == null) return NotFound();
+            return Ok(result);
         }
 
         [HttpPost]
-        public async Task<ActionResult<VerificacionesCorreoDto>> Post([FromBody] VerificacionesCorreoDto dto)
+        public async Task<IActionResult> Post([FromBody] VerificacionesCorreo dto)
         {
-            var ent = new VerificacionesCorreo { IdUsuario = dto.IdUsuario, Token = dto.Token, EnviadoEn = dto.EnviadoEn, ConfirmadoEn = dto.ConfirmadoEn };
-            await _service.AddAsync(ent);
-            dto.IdVerificacion = ent.IdVerificacion;
-            return CreatedAtAction(nameof(Get), new { id = ent.IdVerificacion }, dto);
+            await _service.AddVerificacionCorreoAsync(dto);
+            return CreatedAtAction(nameof(Get), new { id = dto.IdVerificacion }, dto);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(long id)
         {
-            var ent = await _service.GetByIdAsync(id);
-            if (ent == null) return NotFound();
-            await _service.DeleteAsync(ent);
+            var existing = await _service.GetVerificacionCorreoByIdAsync(id);
+            if (existing == null) return NotFound();
+            await _service.DeleteVerificacionCorreoAsync(existing);
             return NoContent();
         }
     }

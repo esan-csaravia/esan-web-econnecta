@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using web.econecta.dpa.core.Core.DTOs;
 using web.econecta.dpa.core.Core.Entities;
-using web.econecta.dpa.core.Core.Services;
+using web.econecta.dpa.core.Core.Interfaces;
 
 namespace web.econecta.dpa.api.Controllers
 {
@@ -9,52 +8,46 @@ namespace web.econecta.dpa.api.Controllers
     [Route("api/[controller]")]
     public class ComentariosController : ControllerBase
     {
-        private readonly ComentarioService _service;
-        public ComentariosController(ComentarioService service) => _service = service;
+        private readonly IComentarioService _service;
+        public ComentariosController(IComentarioService service) => _service = service;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ComentarioDto>>> Get()
+        public async Task<IActionResult> Get()
         {
-            var items = await _service.GetAllAsync();
-            return items.Select(c => new ComentarioDto { IdComentario = c.IdComentario, IdProducto = c.IdProducto, IdAutor = c.IdAutor, Cuerpo = c.Cuerpo, CreadoEn = c.CreadoEn, ActualizadoEn = c.ActualizadoEn, Eliminado = c.Eliminado }).ToList();
+            var result = await _service.GetComentariosAsync();
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ComentarioDto>> Get(long id)
+        public async Task<IActionResult> Get(long id)
         {
-            var ent = await _service.GetByIdAsync(id);
-            if (ent == null) return NotFound();
-            return new ComentarioDto { IdComentario = ent.IdComentario, IdProducto = ent.IdProducto, IdAutor = ent.IdAutor, Cuerpo = ent.Cuerpo, CreadoEn = ent.CreadoEn, ActualizadoEn = ent.ActualizadoEn, Eliminado = ent.Eliminado };
+            var result = await _service.GetComentarioByIdAsync(id);
+            if (result == null) return NotFound();
+            return Ok(result);
         }
 
         [HttpPost]
-        public async Task<ActionResult<ComentarioDto>> Post([FromBody] ComentarioDto dto)
+        public async Task<IActionResult> Post([FromBody] Comentario entity)
         {
-            var ent = new Comentario { IdProducto = dto.IdProducto, IdAutor = dto.IdAutor, Cuerpo = dto.Cuerpo, CreadoEn = dto.CreadoEn, ActualizadoEn = dto.ActualizadoEn, Eliminado = dto.Eliminado };
-            await _service.AddAsync(ent);
-            dto.IdComentario = ent.IdComentario;
-            return CreatedAtAction(nameof(Get), new { id = ent.IdComentario }, dto);
+            await _service.AddComentarioAsync(entity);
+            return Ok(entity);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(long id, [FromBody] ComentarioDto dto)
+        public async Task<IActionResult> Put(long id, [FromBody] Comentario entity)
         {
-            if (id != dto.IdComentario) return BadRequest();
-            var ent = await _service.GetByIdAsync(id);
-            if (ent == null) return NotFound();
-            ent.Cuerpo = dto.Cuerpo;
-            ent.ActualizadoEn = dto.ActualizadoEn;
-            ent.Eliminado = dto.Eliminado;
-            await _service.UpdateAsync(ent);
+            var existing = await _service.GetComentarioByIdAsync(id);
+            if (existing == null) return NotFound();
+            await _service.UpdateComentarioAsync(entity);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(long id)
         {
-            var ent = await _service.GetByIdAsync(id);
-            if (ent == null) return NotFound();
-            await _service.DeleteAsync(ent);
+            var existing = await _service.GetComentarioByIdAsync(id);
+            if (existing == null) return NotFound();
+            await _service.DeleteComentarioAsync(existing);
             return NoContent();
         }
     }

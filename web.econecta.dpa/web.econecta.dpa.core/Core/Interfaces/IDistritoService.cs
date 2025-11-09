@@ -6,10 +6,10 @@ namespace web.econecta.dpa.core.Core.Interfaces
 {
     public interface IDistritoService
     {
-        Task<List<Distrito>> GetAllAsync();
-        Task<Distrito?> GetByIdAsync(long id);
-        Task AddAsync(Distrito entity);
-        Task UpdateAsync(Distrito entity);
-        Task DeleteAsync(Distrito entity);
+        Task<List<Distrito>> GetDistritosAsync();
+        Task<Distrito?> GetDistritoByIdAsync(long id);
+        Task AddDistritoAsync(Distrito entity);
+        Task UpdateDistritoAsync(Distrito entity);
+        Task DeleteDistritoAsync(Distrito entity);
     }
 }

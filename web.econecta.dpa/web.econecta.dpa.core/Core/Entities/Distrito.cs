@@ -15,8 +15,4 @@ public partial class Distrito
     [StringLength(80)]
     [Unicode(false)]
     public string Nombre { get; set; } = null!;
-
-    // Navigation
-    public virtual ICollection<Producto>? Productos { get; set; }
-    public virtual ICollection<Usuario>? Usuarios { get; set; }
 }

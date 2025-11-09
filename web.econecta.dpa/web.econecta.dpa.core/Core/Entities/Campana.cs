@@ -31,6 +31,4 @@ public partial class Campana
     public DateTime CreadoEn { get; set; }
 
     public DateTime? ActualizadoEn { get; set; }
-
-    public virtual Usuario? IdCreadorNavigation { get; set; }
 }

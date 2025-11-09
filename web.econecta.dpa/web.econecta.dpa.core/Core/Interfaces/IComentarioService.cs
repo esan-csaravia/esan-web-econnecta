@@ -6,10 +6,10 @@ namespace web.econecta.dpa.core.Core.Interfaces
 {
     public interface IComentarioService
     {
-        Task<List<Comentario>> GetAllAsync();
-        Task<Comentario?> GetByIdAsync(long id);
-        Task AddAsync(Comentario entity);
-        Task UpdateAsync(Comentario entity);
-        Task DeleteAsync(Comentario entity);
+        Task<List<Comentario>> GetComentariosAsync();
+        Task<Comentario?> GetComentarioByIdAsync(long id);
+        Task AddComentarioAsync(Comentario entity);
+        Task UpdateComentarioAsync(Comentario entity);
+        Task DeleteComentarioAsync(Comentario entity);
     }
 }

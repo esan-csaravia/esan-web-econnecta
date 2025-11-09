@@ -15,5 +15,10 @@ namespace web.econecta.dpa.core.Core.Services
         public Task AddAsync(Role entity) => _repo.AddAsync(entity);
         public Task UpdateAsync(Role entity) => _repo.UpdateAsync(entity);
         public Task DeleteAsync(Role entity) => _repo.DeleteAsync(entity);
+        public Task<List<Role>> GetRolesAsync() => GetAllAsync();
+        public Task<Role?> GetRoleByIdAsync(long id) => GetByIdAsync(id);
+        public Task AddRoleAsync(Role entity) => AddAsync(entity);
+        public Task UpdateRoleAsync(Role entity) => UpdateAsync(entity);
+        public Task DeleteRoleAsync(Role entity) => DeleteAsync(entity);
     }
 }

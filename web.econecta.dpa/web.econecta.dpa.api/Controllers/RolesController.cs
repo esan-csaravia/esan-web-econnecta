@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using web.econecta.dpa.core.Core.DTOs;
 using web.econecta.dpa.core.Core.Entities;
-using web.econecta.dpa.core.Core.Services;
+using web.econecta.dpa.core.Core.Interfaces;
 
 namespace web.econecta.dpa.api.Controllers
 {
@@ -9,39 +8,37 @@ namespace web.econecta.dpa.api.Controllers
     [Route("api/[controller]")]
     public class RolesController : ControllerBase
     {
-        private readonly RoleService _service;
-        public RolesController(RoleService service) => _service = service;
+        private readonly IRoleService _service;
+        public RolesController(IRoleService service) => _service = service;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<RoleDto>>> Get()
+        public async Task<IActionResult> Get()
         {
-            var items = await _service.GetAllAsync();
-            return items.Select(r => new RoleDto { IdRol = r.IdRol, Nombre = r.Nombre }).ToList();
+            var result = await _service.GetRolesAsync();
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<RoleDto>> Get(long id)
+        public async Task<IActionResult> Get(long id)
         {
-            var ent = await _service.GetByIdAsync(id);
-            if (ent == null) return NotFound();
-            return new RoleDto { IdRol = ent.IdRol, Nombre = ent.Nombre };
+            var result = await _service.GetRoleByIdAsync(id);
+            if (result == null) return NotFound();
+            return Ok(result);
         }
 
         [HttpPost]
-        public async Task<ActionResult<RoleDto>> Post([FromBody] RoleDto dto)
+        public async Task<IActionResult> Post([FromBody] Role dto)
         {
-            var ent = new Role { Nombre = dto.Nombre };
-            await _service.AddAsync(ent);
-            dto.IdRol = ent.IdRol;
-            return CreatedAtAction(nameof(Get), new { id = ent.IdRol }, dto);
+            await _service.AddRoleAsync(dto);
+            return CreatedAtAction(nameof(Get), new { id = dto.IdRol }, dto);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(long id)
         {
-            var ent = await _service.GetByIdAsync(id);
-            if (ent == null) return NotFound();
-            await _service.DeleteAsync(ent);
+            var existing = await _service.GetRoleByIdAsync(id);
+            if (existing == null) return NotFound();
+            await _service.DeleteRoleAsync(existing);
             return NoContent();
         }
     }
