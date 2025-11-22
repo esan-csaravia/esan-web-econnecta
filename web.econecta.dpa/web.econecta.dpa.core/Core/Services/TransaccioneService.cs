@@ -34,9 +34,27 @@ namespace web.econecta.dpa.core.Core.Services
             {
                 IdTransaccion = t.IdTransaccion,
                 Tipo = t.Tipo,
-                IdProducto = t.IdProducto,
-                IdVendedor = t.IdVendedor,
-                IdComprador = t.IdComprador,
+                Productos = new List<ProductoDto>
+                {
+                    new ProductoDto
+                    {
+                        IdProducto = t.IdProducto,
+                        //IdVendedor = 0,
+                       // Vendedor = null,
+                        Titulo = string.Empty,
+                        Descripcion = string.Empty
+                       // IdCategoria = 0,
+                       
+                    }
+                },
+                Vendedores = new List<UsuarioListDto>
+                {
+                    new UsuarioListDto { IdUsuario = t.IdVendedor, NombreCompleto = string.Empty, Correo = string.Empty }
+                },
+                Compradores = new List<UsuarioListDto>
+                {
+                    new UsuarioListDto { IdUsuario = t.IdComprador, NombreCompleto = string.Empty, Correo = string.Empty }
+                },
                 Cantidad = t.Cantidad,
                 PrecioUnitario = t.PrecioUnitario,
                 MontoTotal = t.MontoTotal,
@@ -54,9 +72,39 @@ namespace web.econecta.dpa.core.Core.Services
             {
                 IdTransaccion = t.IdTransaccion,
                 Tipo = t.Tipo,
-                IdProducto = t.IdProducto,
-                IdVendedor = t.IdVendedor,
-                IdComprador = t.IdComprador,
+                Productos = new List<ProductoDto>
+                {
+                    new ProductoDto
+                    {
+                        IdProducto = t.IdProducto,
+                        IdVendedor = 0,
+                        Vendedor = null,
+                        Titulo = string.Empty,
+                        Descripcion = string.Empty,
+                        IdCategoria = 0,
+                        Categoria = null,
+                        TipoPublicacion = string.Empty,
+                        Condicion = string.Empty,
+                        Precio = null,
+                        Cantidad = 0,
+                        IdDistrito = null,
+                        Distrito = null,
+                        EstadoModeracion = string.Empty,
+                        MotivoModeracion = null,
+                        IdModerador = null,
+                        Activo = false,
+                        CreadoEn = t.CreadoEn,
+                        ActualizadoEn = t.CompletadoEn
+                    }
+                },
+                Vendedores = new List<UsuarioListDto>
+                {
+                    new UsuarioListDto { IdUsuario = t.IdVendedor, NombreCompleto = string.Empty, Correo = string.Empty }
+                },
+                Compradores = new List<UsuarioListDto>
+                {
+                    new UsuarioListDto { IdUsuario = t.IdComprador, NombreCompleto = string.Empty, Correo = string.Empty }
+                },
                 Cantidad = t.Cantidad,
                 PrecioUnitario = t.PrecioUnitario,
                 MontoTotal = t.MontoTotal,

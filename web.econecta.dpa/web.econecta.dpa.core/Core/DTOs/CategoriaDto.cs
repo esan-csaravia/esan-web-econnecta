@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace web.econecta.dpa.core.Core.DTOs
 {
@@ -32,4 +33,12 @@ namespace web.econecta.dpa.core.Core.DTOs
         public int IdDistrito { get; set; }
         public string Nombre { get; set; } = null!;
     }
+
+    // Minimal DTO to reference a Transaccion from other DTOs (only idProducto and descripcion)
+    public class TransaccioneListProductoDto
+    {
+        public long IdProducto { get; set; }
+        public string DescripcionProducto { get; set; } = null!;
+    }
+
 }

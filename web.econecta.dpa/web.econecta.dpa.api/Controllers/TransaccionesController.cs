@@ -1,4 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using web.econecta.dpa.core.Core.DTOs;
 using web.econecta.dpa.core.Core.Entities;
 using web.econecta.dpa.core.Core.Interfaces;
@@ -30,7 +33,21 @@ namespace web.econecta.dpa.api.Controllers
         [HttpPost]
         public async Task<ActionResult<TransaccioneDto>> Post([FromBody] TransaccioneDto dto)
         {
-            var ent = new Transaccione { Tipo = dto.Tipo, IdProducto = dto.IdProducto, IdVendedor = dto.IdVendedor, IdComprador = dto.IdComprador, Cantidad = dto.Cantidad, PrecioUnitario = dto.PrecioUnitario, MontoTotal = dto.MontoTotal, Estado = dto.Estado, CreadoEn = dto.CreadoEn, CompletadoEn = dto.CompletadoEn };
+            // map first reference ids into entity scalar ids (fallback to 0 if not provided)
+            var ent = new Transaccione
+            {
+                Tipo = dto.Tipo,
+                IdProducto = dto.Productos?.FirstOrDefault()?.IdProducto ?? 0,
+                IdVendedor = dto.Vendedores?.FirstOrDefault()?.IdUsuario ?? 0,
+                IdComprador = dto.Compradores?.FirstOrDefault()?.IdUsuario ?? 0,
+                Cantidad = dto.Cantidad,
+                PrecioUnitario = dto.PrecioUnitario,
+                MontoTotal = dto.MontoTotal,
+                Estado = dto.Estado,
+                CreadoEn = dto.CreadoEn,
+                CompletadoEn = dto.CompletadoEn
+            };
+
             await _service.AddTransaccionAsync(ent);
             dto.IdTransaccion = ent.IdTransaccion;
             return CreatedAtAction(nameof(Get), new { id = ent.IdTransaccion }, dto);

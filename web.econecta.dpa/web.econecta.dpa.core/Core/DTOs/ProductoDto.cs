@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace web.econecta.dpa.core.Core.DTOs
 {
@@ -23,5 +24,8 @@ namespace web.econecta.dpa.core.Core.DTOs
         public bool Activo { get; set; }
         public DateTime CreadoEn { get; set; }
         public DateTime? ActualizadoEn { get; set; }
+
+        // list of transactions referencing only idProducto and descripcion
+        public List<TransaccioneListProductoDto>? Transacciones { get; set; }
     }
 }
